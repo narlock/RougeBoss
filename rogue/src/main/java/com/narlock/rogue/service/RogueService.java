@@ -74,12 +74,23 @@ public class RogueService {
     sendMessageToEventQueue(RBEvent.TEST);
   }
 
+  public void refreshBoss() {
+    RB.window.gp.initializeBoss(boss);
+  }
+
   public RBResult sendMessageToEventQueue(RBEvent event) {
     // Process the event
     RBResult result = processEvent(event);
 
     // Draw the event
     RB.window.gp.event(event, result);
+
+    // Check if Boss has been slain
+    if (result.isSlain()) {
+      boss = RBBoss.random(result.getBoss().getLevel() + 1);
+      saveBossToJsonFile();
+      refreshBoss();
+    }
 
     // Return result
     return result;

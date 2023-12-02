@@ -7,7 +7,7 @@ import com.narlock.rogue.util.ImageUtils;
 import com.narlock.rogue.util.ScreenUtils;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Stack;
+import java.util.LinkedList;
 import javax.swing.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,8 +21,10 @@ public class GraphicsPanel extends JPanel implements Runnable {
   private RBBoss rbBoss;
   int bossAnimationCounter = 0;
   int healthBarWidth;
+  boolean updatedHealthBar;
 
-  private Stack<EventPair> eventStack;
+  private LinkedList<EventPair> eventList;
+  private LinkedList<Integer> healthBarList;
   private boolean eventInProgress;
   private EventPair currentEvent;
   int animationCounter = 0;
@@ -32,7 +34,8 @@ public class GraphicsPanel extends JPanel implements Runnable {
   public GraphicsPanel() {
     titleImage = ImageUtils.readImage("/res/title.png");
 
-    eventStack = new Stack<>();
+    eventList = new LinkedList<>();
+    healthBarList = new LinkedList<>();
     this.boss = Boss.GNASHER;
     this.rbBoss = RBBoss.GNASHER;
     healthBarWidth = 200;
@@ -76,18 +79,20 @@ public class GraphicsPanel extends JPanel implements Runnable {
     drawBossName(g);
     drawBossHealth(g);
 
-    if (!eventStack.isEmpty() && !eventInProgress) {
+    if (!eventList.isEmpty() && !eventInProgress) {
       // Draw events
-      currentEvent = eventStack.pop();
+      currentEvent = eventList.poll();
+      updatedHealthBar = false;
+
       attacker = Attacker.getAttackerByType(currentEvent.getEvent().getModel());
-      eventInProgress = true;
       didAttack = false;
+
       log.info("Event from {} now in progress...", currentEvent.getEvent().getId());
+      eventInProgress = true;
     } else if (eventInProgress) {
       drawAnimation(g);
     } else {
       // NO EVENTS
-      // TODO - DRAW ROGUE BOSS LOGO!
       g.drawImage(titleImage, 60, 0, null);
     }
   }
@@ -119,6 +124,7 @@ public class GraphicsPanel extends JPanel implements Runnable {
       animationCounter = 0;
       eventInProgress = false;
       didAttack = false;
+      updatedHealthBar = false;
     }
 
     if (didAttack) {
@@ -127,9 +133,13 @@ public class GraphicsPanel extends JPanel implements Runnable {
       g.drawString(currentEvent.getResult().getNote(), x, 35);
 
       // Calculate the current health percentage
-      int maxHealth = (rbBoss.getLevel() * 500);
-      double healthPercentage = (double) rbBoss.getHealth() / maxHealth;
-      setNewHealthBarWidth(200, healthPercentage);
+      if (!updatedHealthBar) {
+        if (!healthBarList.isEmpty()) {
+          healthBarWidth = healthBarList.poll();
+          log.info("Health bar now {}", healthBarWidth);
+        }
+        updatedHealthBar = true;
+      }
     }
   }
 
@@ -176,11 +186,11 @@ public class GraphicsPanel extends JPanel implements Runnable {
     g.fillRect(barX, barY, healthBarWidth, barHeight);
   }
 
-  public void setNewHealthBarWidth(int barWidth, double healthPercentage) {
-    this.healthBarWidth = (int) (barWidth * healthPercentage);
-  }
-
   public void event(RBEvent event, RBResult result) {
-    eventStack.push(EventPair.builder().event(event).result(result).build());
+    eventList.add(EventPair.builder().event(event).result(result).build());
+
+    int maxHealth = result.getBoss().getLevel() * 500;
+    int barWidthAfterAttack = (int) (200 * ((double) result.getBoss().getHealth() / maxHealth));
+    healthBarList.add(barWidthAfterAttack);
   }
 }

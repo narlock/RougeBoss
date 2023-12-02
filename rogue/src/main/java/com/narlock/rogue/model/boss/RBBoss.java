@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;
 import lombok.Data;
-import lombok.ToString;
 
 @Data
 @Builder
-@ToString
+// @ToString
 public class RBBoss {
   private int level;
   private RBBossType bossType;
@@ -30,6 +29,16 @@ public class RBBoss {
 
   public String getName() {
     return type.name() + " " + bossType.name() + " LV" + level;
+  }
+
+  public RBBoss copy() {
+    return RBBoss.builder()
+        .level(this.level)
+        .bossType(this.bossType)
+        .type(this.type)
+        .health(this.health)
+        .damageList(new ArrayList<>(this.damageList)) // Copy the damage list
+        .build();
   }
 
   public static RBBoss GNASHER =
