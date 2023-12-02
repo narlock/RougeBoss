@@ -19,6 +19,7 @@ public class RogueController {
 
     @PostMapping("/rb")
     public ResponseEntity<RBResult> rb(@RequestBody RBEvent event) {
+        log.info("Received event {}", event);
         RBResult result = rogueService.sendMessageToEventQueue(event);
         return ResponseEntity.ok(result);
     }

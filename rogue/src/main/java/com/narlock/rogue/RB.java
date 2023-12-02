@@ -1,6 +1,7 @@
 package com.narlock.rogue;
 
 import com.narlock.rogue.gui.Window;
+import com.narlock.rogue.model.boss.RBBoss;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
@@ -15,6 +16,9 @@ public class RB {
 
 		// Create Swing frame
 		window = new Window();
+
+		RBBoss boss = RBBoss.random(1);
+		System.out.println(boss.toString());
 	}
 
 }

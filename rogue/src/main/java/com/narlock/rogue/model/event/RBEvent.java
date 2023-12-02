@@ -2,9 +2,11 @@ package com.narlock.rogue.model.event;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Builder
+@ToString
 public class RBEvent {
     private String id;
     private RBType type;

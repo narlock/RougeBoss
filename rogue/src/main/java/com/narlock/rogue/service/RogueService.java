@@ -1,12 +1,70 @@
 package com.narlock.rogue.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.narlock.rogue.RB;
+import com.narlock.rogue.model.boss.RBBoss;
 import com.narlock.rogue.model.event.RBEvent;
 import com.narlock.rogue.model.result.RBResult;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class RogueService {
+
+    private RBBoss boss;
+
+    private final ObjectMapper objectMapper;
+
+    @PostConstruct
+    public void init() {
+        loadBossFromJsonFile();
+        log.info("Boss loaded {}", boss);
+    }
+
+    private void loadBossFromJsonFile() {
+        try {
+            String filePath = getBossFilePath();
+            File file = new File(filePath);
+
+            if (!file.exists()) {
+                boss = RBBoss.random(1); // Creating a random boss with level 1
+                saveBossToJsonFile(); // Saving the randomly generated boss to file
+            } else {
+                boss = objectMapper.readValue(file, RBBoss.class);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception as needed
+        }
+    }
+
+    public void saveBossToJsonFile() {
+        try {
+            String filePath = getBossFilePath();
+            String bossJson = objectMapper.writeValueAsString(boss);
+            Files.write(Paths.get(filePath), bossJson.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception as needed
+        }
+    }
+
+    private String getBossFilePath() {
+        String userHome = System.getProperty("user.home");
+        return userHome + File.separator + "Documents" + File.separator + "RogueBoss" + File.separator + "boss.json";
+    }
+
     public RBResult sendMessageToEventQueue(RBEvent event) {
         // Process the event
         RBResult result = processEvent(event);
