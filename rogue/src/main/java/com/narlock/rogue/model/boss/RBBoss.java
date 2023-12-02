@@ -32,7 +32,8 @@ public class RBBoss {
     return type.name() + " " + bossType.name() + " LV" + level;
   }
 
-  public static RBBoss GNASHER = RBBoss.builder()
+  public static RBBoss GNASHER =
+      RBBoss.builder()
           .level(1)
           .bossType(RBBossType.GNASHER)
           .type(RBType.LIGHT)

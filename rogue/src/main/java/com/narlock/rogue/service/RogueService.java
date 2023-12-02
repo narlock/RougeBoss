@@ -126,7 +126,7 @@ public class RogueService {
   }
 
   protected int getAttackPower(RBEvent event) {
-    if(event.getId().equalsIgnoreCase("TEST")) {
+    if (event.getId().equalsIgnoreCase("TEST")) {
       return 0;
     }
 

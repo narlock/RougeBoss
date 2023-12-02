@@ -1,16 +1,14 @@
 package com.narlock.rogue.gui;
 
 import com.narlock.rogue.model.boss.RBBoss;
-import com.narlock.rogue.model.boss.RBBossType;
 import com.narlock.rogue.model.event.RBEvent;
 import com.narlock.rogue.model.result.RBResult;
+import com.narlock.rogue.util.ImageUtils;
+import com.narlock.rogue.util.ScreenUtils;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Stack;
 import javax.swing.*;
-
-import com.narlock.rogue.util.ImageUtils;
-import com.narlock.rogue.util.ScreenUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -177,7 +175,6 @@ public class GraphicsPanel extends JPanel implements Runnable {
     g.setColor(healthColor);
     g.fillRect(barX, barY, healthBarWidth, barHeight);
   }
-
 
   public void setNewHealthBarWidth(int barWidth, double healthPercentage) {
     this.healthBarWidth = (int) (barWidth * healthPercentage);

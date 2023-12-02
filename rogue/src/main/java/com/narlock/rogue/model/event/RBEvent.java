@@ -15,7 +15,8 @@ public class RBEvent {
   private int powerUp;
   private int exp;
 
-  public static RBEvent TEST = RBEvent.builder()
+  public static RBEvent TEST =
+      RBEvent.builder()
           .id("TEST")
           .type(RBType.LIGHT)
           .model(RBModel.TRINITY)
