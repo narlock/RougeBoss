@@ -4,17 +4,18 @@ import javax.swing.*;
 
 public class Window extends JFrame {
 
-    public GraphicsPanel gp;
-    public Window() {
-        setTitle("Rogue Boss");
-        setSize(500, 500);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  public GraphicsPanel gp;
 
-        gp = new GraphicsPanel();
-        add(gp);
+  public Window() {
+    setTitle("Rogue Boss");
+    setSize(500, 500);
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setLocationRelativeTo(null);
-        setVisible(true);
-    }
+    gp = new GraphicsPanel();
+    add(gp);
+
+    setLocationRelativeTo(null);
+    setVisible(true);
+  }
 }

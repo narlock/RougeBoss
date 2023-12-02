@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class RBDamage {
-    private String id;
-    private int damage;
+  private String id;
+  private int damage;
 }

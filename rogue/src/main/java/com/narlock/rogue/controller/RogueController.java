@@ -14,13 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class RogueController {
 
-    @Autowired
-    private RogueService rogueService;
+  @Autowired private RogueService rogueService;
 
-    @PostMapping("/rb")
-    public ResponseEntity<RBResult> rb(@RequestBody RBEvent event) {
-        log.info("Received event {}", event);
-        RBResult result = rogueService.sendMessageToEventQueue(event);
-        return ResponseEntity.ok(result);
-    }
+  @PostMapping("/rb")
+  public ResponseEntity<RBResult> rb(@RequestBody RBEvent event) {
+    log.info("Received event {}", event);
+    RBResult result = rogueService.sendMessageToEventQueue(event);
+    return ResponseEntity.ok(result);
+  }
 }

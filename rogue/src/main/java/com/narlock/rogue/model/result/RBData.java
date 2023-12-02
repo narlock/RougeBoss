@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class RBData {
-    private String id;
-    private int totalDamage;
-    private int expEarned;
+  private String id;
+  private int totalDamage;
+  private int expEarned;
 }

@@ -8,10 +8,10 @@ import lombok.ToString;
 @Builder
 @ToString
 public class RBEvent {
-    private String id;
-    private RBType type;
-    private RBModel model;
-    private int weapon;
-    private int powerUp;
-    private int exp;
+  private String id;
+  private RBType type;
+  private RBModel model;
+  private int weapon;
+  private int powerUp;
+  private int exp;
 }
