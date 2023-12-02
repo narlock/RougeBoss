@@ -19,6 +19,7 @@ public class RogueController {
 
   @GetMapping("/rb")
   public ResponseEntity<String> ping() {
+    log.info("Ping request received. Syncing Boss with Graphics Panel");
     rogueService.ping();
     return ResponseEntity.ok("Success");
   }

@@ -5,17 +5,24 @@ import com.narlock.rogue.model.boss.RBBossType;
 import com.narlock.rogue.model.event.RBEvent;
 import com.narlock.rogue.model.result.RBResult;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Stack;
 import javax.swing.*;
+
+import com.narlock.rogue.util.ImageUtils;
+import com.narlock.rogue.util.ScreenUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class GraphicsPanel extends JPanel implements Runnable {
 
   Thread graphicsThread;
+  BufferedImage titleImage;
 
   private Boss boss;
+  private RBBoss rbBoss;
   int bossAnimationCounter = 0;
+  int healthBarWidth;
 
   private Stack<EventPair> eventStack;
   private boolean eventInProgress;
@@ -25,14 +32,19 @@ public class GraphicsPanel extends JPanel implements Runnable {
   private boolean didAttack;
 
   public GraphicsPanel() {
+    titleImage = ImageUtils.readImage("/res/title.png");
+
     eventStack = new Stack<>();
-    this.boss = Boss.getBossByType(RBBossType.GNASHER);
+    this.boss = Boss.GNASHER;
+    this.rbBoss = RBBoss.GNASHER;
+    healthBarWidth = 200;
 
     graphicsThread = new Thread(this);
     graphicsThread.start();
   }
 
   public void initializeBoss(RBBoss rbBoss) {
+    this.rbBoss = rbBoss;
     boss = Boss.getBossByType(rbBoss.getBossType());
   }
 
@@ -63,6 +75,8 @@ public class GraphicsPanel extends JPanel implements Runnable {
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     drawBoss(g);
+    drawBossName(g);
+    drawBossHealth(g);
 
     if (!eventStack.isEmpty() && !eventInProgress) {
       // Draw events
@@ -70,14 +84,18 @@ public class GraphicsPanel extends JPanel implements Runnable {
       attacker = Attacker.getAttackerByType(currentEvent.getEvent().getModel());
       eventInProgress = true;
       didAttack = false;
-
+      log.info("Event from {} now in progress...", currentEvent.getEvent().getId());
     } else if (eventInProgress) {
       drawAnimation(g);
+    } else {
+      // NO EVENTS
+      // TODO - DRAW ROGUE BOSS LOGO!
+      g.drawImage(titleImage, 60, 0, null);
     }
   }
 
   public void drawAnimation(Graphics g) {
-    if (animationCounter < 140) {
+    if (animationCounter < 180) {
       animationCounter++;
 
       if (animationCounter < 5) {
@@ -106,7 +124,14 @@ public class GraphicsPanel extends JPanel implements Runnable {
     }
 
     if (didAttack) {
-      g.drawString(currentEvent.getResult().getNote(), 15, 15);
+      g.setColor(Color.BLACK);
+      int x = ScreenUtils.getXForCenterText(g, currentEvent.getResult().getNote());
+      g.drawString(currentEvent.getResult().getNote(), x, 35);
+
+      // Calculate the current health percentage
+      int maxHealth = (rbBoss.getLevel() * 500);
+      double healthPercentage = (double) rbBoss.getHealth() / maxHealth;
+      setNewHealthBarWidth(200, healthPercentage);
     }
   }
 
@@ -127,6 +152,35 @@ public class GraphicsPanel extends JPanel implements Runnable {
     if (bossAnimationCounter >= 60) {
       bossAnimationCounter = 0;
     }
+  }
+
+  public void drawBossName(Graphics g) {
+    int x = ScreenUtils.getXForCenterText(g, rbBoss.getName());
+    g.drawString(rbBoss.getName(), x, 180);
+  }
+
+  public void drawBossHealth(Graphics g) {
+    // Define the size and position of the health bar
+    int barWidth = 200;
+    int barHeight = 25;
+    int barX = 50; // X-coordinate
+    int barY = 190; // Y-coordinate
+
+    // Set color for the health bar
+    Color healthColor = Color.RED; // For example, set to green
+
+    // Draw the health bar outline
+    g.setColor(Color.BLACK);
+    g.drawRect(barX, barY, barWidth, barHeight);
+
+    // Draw the filled portion of the health bar based on the current health
+    g.setColor(healthColor);
+    g.fillRect(barX, barY, healthBarWidth, barHeight);
+  }
+
+
+  public void setNewHealthBarWidth(int barWidth, double healthPercentage) {
+    this.healthBarWidth = (int) (barWidth * healthPercentage);
   }
 
   public void event(RBEvent event, RBResult result) {

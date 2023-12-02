@@ -14,4 +14,13 @@ public class RBEvent {
   private int weapon;
   private int powerUp;
   private int exp;
+
+  public static RBEvent TEST = RBEvent.builder()
+          .id("TEST")
+          .type(RBType.LIGHT)
+          .model(RBModel.TRINITY)
+          .weapon(1)
+          .powerUp(1)
+          .exp(0)
+          .build();
 }

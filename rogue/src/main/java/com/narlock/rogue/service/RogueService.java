@@ -71,6 +71,7 @@ public class RogueService {
 
   public void ping() {
     RB.window.gp.initializeBoss(boss);
+    sendMessageToEventQueue(RBEvent.TEST);
   }
 
   public RBResult sendMessageToEventQueue(RBEvent event) {
@@ -125,6 +126,10 @@ public class RogueService {
   }
 
   protected int getAttackPower(RBEvent event) {
+    if(event.getId().equalsIgnoreCase("TEST")) {
+      return 0;
+    }
+
     // Get possible base attack power lower and upper bound
     int baseAttackLowerBound = getLevel(event.getExp()) * 2;
     int baseAttackUpperBound = getLevel(event.getExp()) * 4;

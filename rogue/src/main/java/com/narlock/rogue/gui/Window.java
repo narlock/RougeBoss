@@ -8,7 +8,7 @@ public class Window extends JFrame {
 
   public Window() {
     setTitle("Rogue Boss");
-    setSize(500, 500);
+    setSize(300, 250);
     setResizable(false);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

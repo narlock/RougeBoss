@@ -27,4 +27,16 @@ public class RBBoss {
         .damageList(new ArrayList<>())
         .build();
   }
+
+  public String getName() {
+    return type.name() + " " + bossType.name() + " LV" + level;
+  }
+
+  public static RBBoss GNASHER = RBBoss.builder()
+          .level(1)
+          .bossType(RBBossType.GNASHER)
+          .type(RBType.LIGHT)
+          .health(1 * 500)
+          .damageList(new ArrayList<>())
+          .build();
 }
