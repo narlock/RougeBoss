@@ -9,17 +9,19 @@ import lombok.Data;
 @Data
 @Builder
 public class Attacker {
-  BufferedImage attack1, attack2;
+  BufferedImage walk1, walk2, attack1, attack2;
   int x, y;
 
   public static Attacker getAttackerByType(RBModel model) {
     switch (model) {
-    case TRINITY:
+      case TRINITY:
         return Attacker.builder()
+            .walk1(ImageUtils.readImage("/res/trinity_right_1.png"))
+            .walk2(ImageUtils.readImage("/res/trinity_right_2.png"))
             .attack1(ImageUtils.readImage("/res/trinity_sword_right_1.png"))
             .attack2(ImageUtils.readImage("/res/trinity_sword_right_2.png"))
-                .x(30)
-                .y(50)
+            .x(30)
+            .y(100)
             .build();
     }
 

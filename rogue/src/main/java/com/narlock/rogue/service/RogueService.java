@@ -69,6 +69,10 @@ public class RogueService {
         + "boss.json";
   }
 
+  public void ping() {
+    RB.window.gp.initializeBoss(boss);
+  }
+
   public RBResult sendMessageToEventQueue(RBEvent event) {
     // Process the event
     RBResult result = processEvent(event);

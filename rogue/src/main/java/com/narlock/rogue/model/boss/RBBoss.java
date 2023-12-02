@@ -23,7 +23,7 @@ public class RBBoss {
         .level(level)
         .bossType(RBBossType.random())
         .type(RBType.random())
-        .health(level * 1000)
+        .health(level * 500)
         .damageList(new ArrayList<>())
         .build();
   }
