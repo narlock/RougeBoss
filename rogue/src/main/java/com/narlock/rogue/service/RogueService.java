@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,13 +87,13 @@ public class RogueService {
     int attackPower = getAttackPower(event);
 
     // Roll for critical hit
-    if(roll(7)) {
+    if (roll(7)) {
       note += "Critical hit! ";
       attackPower *= 2;
     }
 
     // Roll for hit chance
-    if(!roll(95)) {
+    if (!roll(95)) {
       note = "Attack missed!";
     } else {
       // Apply attack to boss!
@@ -103,14 +102,14 @@ public class RogueService {
 
       // Update damage dealt for user
       boolean found = false;
-      for(RBData data : boss.getDamageList()) {
-        if(data.getId().equalsIgnoreCase(event.getId())) {
+      for (RBData data : boss.getDamageList()) {
+        if (data.getId().equalsIgnoreCase(event.getId())) {
           data.setDamage(data.getDamage() + attackPower);
           found = true;
         }
       }
 
-      if(!found) {
+      if (!found) {
         RBData data = RBData.builder().id(event.getId()).damage(attackPower).build();
         boss.getDamageList().add(data);
       }
@@ -118,11 +117,7 @@ public class RogueService {
       saveBossToJsonFile();
     }
 
-    return RBResult.builder()
-            .note(note)
-            .slain(boss.getHealth() <= 0)
-            .boss(boss)
-            .build();
+    return RBResult.builder().note(note).slain(boss.getHealth() <= 0).boss(boss).build();
   }
 
   protected int getAttackPower(RBEvent event) {
@@ -132,7 +127,8 @@ public class RogueService {
 
     // Roll random attack value between that
     Random random = new Random();
-    int baseAttack = random.nextInt(baseAttackUpperBound - baseAttackLowerBound + 1) + baseAttackLowerBound;
+    int baseAttack =
+        random.nextInt(baseAttackUpperBound - baseAttackLowerBound + 1) + baseAttackLowerBound;
 
     // Apply effectiveness
     double effectiveMultiplier = event.getType().getEffectivenessAgainst(boss.getType());

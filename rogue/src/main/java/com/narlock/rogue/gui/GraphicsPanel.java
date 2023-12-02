@@ -1,10 +1,8 @@
 package com.narlock.rogue.gui;
 
-import ch.qos.logback.core.joran.sanity.Pair;
 import com.narlock.rogue.model.event.RBEvent;
 import com.narlock.rogue.model.result.RBResult;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Stack;
 import javax.swing.*;
 
@@ -16,6 +14,8 @@ public class GraphicsPanel extends JPanel implements Runnable {
   private boolean eventInProgress;
   private EventPair currentEvent;
   int animationCounter = 0;
+  private Attacker attacker;
+  private boolean didAttack;
 
   public GraphicsPanel() {
     eventStack = new Stack<>();
@@ -45,31 +45,54 @@ public class GraphicsPanel extends JPanel implements Runnable {
     }
   }
 
-  public void update() {}
+  public void update() {
+    if(eventInProgress) {
+      attacker.x += 2;
+    }
+  }
 
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
 
-    if(!eventStack.isEmpty() && !eventInProgress) {
+    if (!eventStack.isEmpty() && !eventInProgress) {
       // Draw events
-      eventInProgress = true;
       currentEvent = eventStack.pop();
+      attacker = Attacker.getAttackerByType(currentEvent.getEvent().getModel());
+      eventInProgress = true;
+      didAttack = false;
 
       // Draw the animation
       drawAnimation(g);
-    } else if(eventInProgress) {
+    } else if (eventInProgress) {
       drawAnimation(g);
     }
   }
 
   public void drawAnimation(Graphics g) {
-    if(animationCounter < 180) {
+    if (animationCounter < 180) {
       animationCounter++;
-      g.drawString(currentEvent.getResult().getNote(), 15, 15);
+
+//      if(animationCounter < 40) {
+//        attacker.
+//      }
+
+      if(animationCounter < 5 || animationCounter > 30) {
+        g.drawImage(attacker.attack1, attacker.x, attacker.y, 128, 64, null);
+      }
+      else {
+        g.drawImage(attacker.attack2, attacker.x, attacker.y, 128, 64, null);
+        didAttack = true;
+      }
+
     } else {
       animationCounter = 0;
       eventInProgress = false;
+      didAttack = false;
+    }
+
+    if(didAttack) {
+      g.drawString(currentEvent.getResult().getNote(), 15, 15);
     }
   }
 

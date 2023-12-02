@@ -8,6 +8,6 @@ import lombok.Data;
 @Data
 @Builder
 public class EventPair {
-    private RBEvent event;
-    private RBResult result;
+  private RBEvent event;
+  private RBResult result;
 }
