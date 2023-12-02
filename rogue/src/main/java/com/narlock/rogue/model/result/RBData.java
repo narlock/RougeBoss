@@ -7,6 +7,5 @@ import lombok.Data;
 @Builder
 public class RBData {
   private String id;
-  private int totalDamage;
-  private int expEarned;
+  private int damage;
 }

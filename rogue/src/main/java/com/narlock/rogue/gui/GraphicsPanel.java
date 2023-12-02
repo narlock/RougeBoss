@@ -1,19 +1,24 @@
 package com.narlock.rogue.gui;
 
+import ch.qos.logback.core.joran.sanity.Pair;
 import com.narlock.rogue.model.event.RBEvent;
 import com.narlock.rogue.model.result.RBResult;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Stack;
 import javax.swing.*;
 
 public class GraphicsPanel extends JPanel implements Runnable {
 
   Thread graphicsThread;
-  public ArrayList<String> textList;
+
+  private Stack<EventPair> eventStack;
+  private boolean eventInProgress;
+  private EventPair currentEvent;
+  int animationCounter = 0;
 
   public GraphicsPanel() {
-    textList = new ArrayList<>();
-    textList.add("App Started!");
+    eventStack = new Stack<>();
 
     graphicsThread = new Thread(this);
     graphicsThread.start();
@@ -40,25 +45,35 @@ public class GraphicsPanel extends JPanel implements Runnable {
     }
   }
 
-  public void addString(String string) {
-    textList.add(string);
-  }
-
   public void update() {}
 
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
 
-    int x = 15;
-    int y = 15;
-    for (String text : textList) {
-      g.drawString(text, x, y);
-      y += 15;
+    if(!eventStack.isEmpty() && !eventInProgress) {
+      // Draw events
+      eventInProgress = true;
+      currentEvent = eventStack.pop();
+
+      // Draw the animation
+      drawAnimation(g);
+    } else if(eventInProgress) {
+      drawAnimation(g);
+    }
+  }
+
+  public void drawAnimation(Graphics g) {
+    if(animationCounter < 180) {
+      animationCounter++;
+      g.drawString(currentEvent.getResult().getNote(), 15, 15);
+    } else {
+      animationCounter = 0;
+      eventInProgress = false;
     }
   }
 
   public void event(RBEvent event, RBResult result) {
-    // TODO Code to handle event
+    eventStack.push(EventPair.builder().event(event).result(result).build());
   }
 }

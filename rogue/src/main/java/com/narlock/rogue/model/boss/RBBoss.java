@@ -3,6 +3,8 @@ package com.narlock.rogue.model.boss;
 import com.narlock.rogue.model.event.RBType;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.narlock.rogue.model.result.RBData;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
@@ -15,7 +17,7 @@ public class RBBoss {
   private RBBossType bossType;
   private RBType type;
   private int health;
-  private List<RBDamage> damageList;
+  private List<RBData> damageList;
 
   public static RBBoss random(int level) {
     return RBBoss.builder()
