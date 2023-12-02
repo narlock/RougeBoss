@@ -79,6 +79,12 @@ public class RogueService {
   }
 
   protected RBResult processEvent(RBEvent event) {
+    // Use attack on the boss
+    int attackPower = getAttackPower(event);
     return null;
+  }
+
+  protected int getAttackPower(RBEvent event) {
+    return 1;
   }
 }
