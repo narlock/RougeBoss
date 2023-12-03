@@ -21,7 +21,7 @@ This application as it stands leaves choices for other developers on how they wa
 Pings the Rogue Boss application. This should be utilized to ensure connection to the API is stable and that the GUI displays the correct boss information.
 
 **Response**
-```json
+```
 HTTP/1.1 200 OK
 Content-Type: text/plain
 
