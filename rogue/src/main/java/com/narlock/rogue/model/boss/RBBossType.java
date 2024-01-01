@@ -3,10 +3,11 @@ package com.narlock.rogue.model.boss;
 import java.util.Random;
 
 public enum RBBossType {
-  GNASHER("Gnasher"),
+  SLIME("Slime"),
+  ZOMBIE("Zombie"),
   DRAGON("Dragon"),
   WOLF_MAN("Wolf"),
-  MAGIC_GIRL("Magic"),
+  MAGICIAN("Magician"),
   OGRE("Ogre"),
   GHOST("Ghost"),
   UNICORN("Unicorn"),

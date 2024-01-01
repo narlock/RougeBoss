@@ -81,15 +81,15 @@ This game has a simple typing system. Certain types are super/not very effective
 - **EARTH**
     - Strong against: Water
     - Weak against: Fire
-- **ELECTRIC**
+- **PSYCHIC**
     - Strong against: Dark
     - Weak against: Light
 - **LIGHT**
-    - Strong against: Electric
+    - Strong against: PSYCHIC
     - Weak against: Dark
 - **DARK**
     - Strong against: Light
-    - Weak against: Electric
+    - Weak against: PSYCHIC
 
 ## TODO
 - Unit Testing

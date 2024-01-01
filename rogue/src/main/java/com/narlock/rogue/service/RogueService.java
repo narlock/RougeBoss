@@ -15,12 +15,13 @@ import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 @Slf4j
 public class RogueService {
 
-  private RBBoss boss;
+  public static RBBoss boss;
 
   @Autowired private ObjectMapper objectMapper;
 
@@ -71,11 +72,25 @@ public class RogueService {
 
   public void ping() {
     RB.window.gp.initializeBoss(boss);
+  }
+
+  public void pingWithAnimation() {
+    RB.window.gp.initializeBoss(boss);
     sendMessageToEventQueue(RBEvent.TEST);
   }
 
   public void refreshBoss() {
     RB.window.gp.initializeBoss(boss);
+
+    // Create a RestTemplate instance
+    RestTemplate restTemplate = new RestTemplate();
+
+    // Make a GET request to the endpoint
+    String url = "http://localhost:8081/rban";
+    String response = restTemplate.getForObject(url, String.class);
+
+    // Process the response
+    System.out.println("Response from /rban endpoint: " + response);
   }
 
   public RBResult sendMessageToEventQueue(RBEvent event) {
@@ -101,6 +116,9 @@ public class RogueService {
 
     // Use attack on the boss
     int attackPower = getAttackPower(event);
+    if(event.getId().equalsIgnoreCase("0")) {
+      attackPower = 0;
+    }
 
     // Roll for critical hit
     if (roll(7)) {
@@ -133,7 +151,11 @@ public class RogueService {
       saveBossToJsonFile();
     }
 
-    return RBResult.builder().note(note).slain(boss.getHealth() <= 0).boss(boss).build();
+    boolean slain = boss.getHealth() <= 0;
+    if(slain) {
+
+    }
+    return RBResult.builder().note(note).slain(slain).boss(boss).build();
   }
 
   protected int getAttackPower(RBEvent event) {

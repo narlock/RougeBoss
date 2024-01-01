@@ -8,16 +8,22 @@ public enum RBType {
   FIRE("Fire"),
   WATER("Water"),
   EARTH("Earth"),
-  ELECTRIC("Electric"),
+  PSYCHIC("PSYCHIC"),
   LIGHT("Light"),
-  DARK("Dark");
+  DARK("Dark"),
+  TEST("Test");
 
   RBType(String name) {}
 
   private static final Random RANDOM = new Random();
 
   public static RBType random() {
-    return values()[RANDOM.nextInt(values().length)];
+    RBType[] values = values();
+    RBType randomType;
+    do {
+      randomType = values[RANDOM.nextInt(values.length)];
+    } while (randomType == TEST); // Exclude TEST
+    return randomType;
   }
 
   // Type matchups and effectiveness
@@ -42,20 +48,20 @@ public enum RBType {
     TYPE_EFFECTIVENESS.get(EARTH).put(FIRE, 0.5); // EARTH is not very effective against FIRE
     TYPE_EFFECTIVENESS.get(EARTH).put(EARTH, 0.5); // EARTH is not very effective against itself
 
-    TYPE_EFFECTIVENESS.get(ELECTRIC).put(DARK, 2.0); // ELECTRIC is super effective against DARK
+    TYPE_EFFECTIVENESS.get(PSYCHIC).put(DARK, 2.0); // PSYCHIC is super effective against DARK
     TYPE_EFFECTIVENESS
-        .get(ELECTRIC)
-        .put(LIGHT, 0.5); // ELECTRIC is not very effective against LIGHT
+        .get(PSYCHIC)
+        .put(LIGHT, 0.5); // PSYCHIC is not very effective against LIGHT
     TYPE_EFFECTIVENESS
-        .get(ELECTRIC)
-        .put(ELECTRIC, 0.5); // ELECTRIC is not very effective against itself
+        .get(PSYCHIC)
+        .put(PSYCHIC, 0.5); // PSYCHIC is not very effective against itself
 
-    TYPE_EFFECTIVENESS.get(LIGHT).put(ELECTRIC, 2.0); // LIGHT is super effective against ELECTRIC
+    TYPE_EFFECTIVENESS.get(LIGHT).put(PSYCHIC, 2.0); // LIGHT is super effective against PSYCHIC
     TYPE_EFFECTIVENESS.get(LIGHT).put(DARK, 0.5); // LIGHT is not very effective against DARK
     TYPE_EFFECTIVENESS.get(LIGHT).put(LIGHT, 0.5); // LIGHT is not very effective against itself
 
     TYPE_EFFECTIVENESS.get(DARK).put(LIGHT, 2.0); // DARK is super effective against LIGHT
-    TYPE_EFFECTIVENESS.get(DARK).put(ELECTRIC, 0.5); // DARK is not very effective against ELECTRIC
+    TYPE_EFFECTIVENESS.get(DARK).put(PSYCHIC, 0.5); // DARK is not very effective against PSYCHIC
     TYPE_EFFECTIVENESS.get(DARK).put(DARK, 0.5); // DARK is not very effective against itself
   }
 

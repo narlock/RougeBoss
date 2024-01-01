@@ -22,7 +22,7 @@ public class RBBoss {
         .level(level)
         .bossType(RBBossType.random())
         .type(RBType.random())
-        .health(level * 500)
+        .health(level * 50)
         .damageList(new ArrayList<>())
         .build();
   }
@@ -41,10 +41,10 @@ public class RBBoss {
         .build();
   }
 
-  public static RBBoss GNASHER =
+  public static RBBoss SLIME =
       RBBoss.builder()
           .level(1)
-          .bossType(RBBossType.GNASHER)
+          .bossType(RBBossType.SLIME)
           .type(RBType.LIGHT)
           .health(1 * 500)
           .damageList(new ArrayList<>())

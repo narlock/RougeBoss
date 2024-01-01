@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import javax.swing.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 public class GraphicsPanel extends JPanel implements Runnable {
@@ -36,8 +37,8 @@ public class GraphicsPanel extends JPanel implements Runnable {
 
     eventList = new LinkedList<>();
     healthBarList = new LinkedList<>();
-    this.boss = Boss.GNASHER;
-    this.rbBoss = RBBoss.GNASHER;
+    this.boss = Boss.SLIME;
+    this.rbBoss = RBBoss.SLIME;
     healthBarWidth = 200;
 
     graphicsThread = new Thread(this);
@@ -84,7 +85,8 @@ public class GraphicsPanel extends JPanel implements Runnable {
       currentEvent = eventList.poll();
       updatedHealthBar = false;
 
-      attacker = Attacker.getAttackerByType(currentEvent.getEvent().getModel());
+      attacker = Attacker.getAttackerByType(currentEvent.getEvent().getType());
+      log.info("attacker {}", attacker.x);
       didAttack = false;
 
       log.info("Event from {} now in progress...", currentEvent.getEvent().getId());
@@ -129,8 +131,16 @@ public class GraphicsPanel extends JPanel implements Runnable {
 
     if (didAttack) {
       g.setColor(Color.BLACK);
-      int x = ScreenUtils.getXForCenterText(g, currentEvent.getResult().getNote());
-      g.drawString(currentEvent.getResult().getNote(), x, 35);
+
+      if(currentEvent.getEvent().getId().equalsIgnoreCase("0")) {
+        String message = "A Rogue Boss has appeared!";
+        int x = ScreenUtils.getXForCenterText(g, message);
+        g.drawString(message, x, 35);
+      } else {
+        int x = ScreenUtils.getXForCenterText(g, currentEvent.getResult().getNote());
+        g.drawString(currentEvent.getResult().getNote(), x, 35);
+      }
+
 
       // Calculate the current health percentage
       if (!updatedHealthBar) {
@@ -189,7 +199,7 @@ public class GraphicsPanel extends JPanel implements Runnable {
   public void event(RBEvent event, RBResult result) {
     eventList.add(EventPair.builder().event(event).result(result).build());
 
-    int maxHealth = result.getBoss().getLevel() * 500;
+    int maxHealth = result.getBoss().getLevel() * 50;
     int barWidthAfterAttack = (int) (200 * ((double) result.getBoss().getHealth() / maxHealth));
     healthBarList.add(barWidthAfterAttack);
   }

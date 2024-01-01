@@ -24,6 +24,13 @@ public class RogueController {
     return ResponseEntity.ok("Success");
   }
 
+  @GetMapping("/rban")
+  public ResponseEntity<String> pingWithAnimation() {
+    log.info("Ping request received. Syncing Boss with Graphics Panel");
+    rogueService.pingWithAnimation();
+    return ResponseEntity.ok("Success");
+  }
+
   @PostMapping("/rb")
   public ResponseEntity<RBResult> rb(@RequestBody RBEvent event) {
     log.info("Received event {}", event);

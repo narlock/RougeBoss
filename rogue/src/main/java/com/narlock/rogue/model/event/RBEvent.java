@@ -17,8 +17,8 @@ public class RBEvent {
 
   public static RBEvent TEST =
       RBEvent.builder()
-          .id("TEST")
-          .type(RBType.LIGHT)
+          .id("0")
+          .type(RBType.FIRE)
           .model(RBModel.TRINITY)
           .weapon(1)
           .powerUp(1)

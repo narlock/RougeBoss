@@ -14,15 +14,15 @@ public class Boss {
 
   public static Boss getBossByType(RBBossType bossType) {
     switch (bossType) {
-      case GNASHER:
+      case SLIME:
         return Boss.builder()
-            .image1(ImageUtils.readImage("/res/gnasher_1.png"))
-            .image2(ImageUtils.readImage("/res/gnasher_2.png"))
+            .image1(ImageUtils.readImage("/res/slime_1.png"))
+            .image2(ImageUtils.readImage("/res/slime_2.png"))
             .build();
     }
 
-    return GNASHER;
+    return SLIME;
   }
 
-  public static Boss GNASHER = getBossByType(RBBossType.GNASHER);
+  public static Boss SLIME = getBossByType(RBBossType.SLIME);
 }
