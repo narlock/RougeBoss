@@ -49,9 +49,7 @@ public enum RBType {
     TYPE_EFFECTIVENESS.get(EARTH).put(EARTH, 0.5); // EARTH is not very effective against itself
 
     TYPE_EFFECTIVENESS.get(PSYCHIC).put(DARK, 2.0); // PSYCHIC is super effective against DARK
-    TYPE_EFFECTIVENESS
-        .get(PSYCHIC)
-        .put(LIGHT, 0.5); // PSYCHIC is not very effective against LIGHT
+    TYPE_EFFECTIVENESS.get(PSYCHIC).put(LIGHT, 0.5); // PSYCHIC is not very effective against LIGHT
     TYPE_EFFECTIVENESS
         .get(PSYCHIC)
         .put(PSYCHIC, 0.5); // PSYCHIC is not very effective against itself

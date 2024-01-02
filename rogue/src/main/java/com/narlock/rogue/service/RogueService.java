@@ -116,7 +116,7 @@ public class RogueService {
 
     // Use attack on the boss
     int attackPower = getAttackPower(event);
-    if(event.getId().equalsIgnoreCase("0")) {
+    if (event.getId().equalsIgnoreCase("0")) {
       attackPower = 0;
     }
 
@@ -152,9 +152,7 @@ public class RogueService {
     }
 
     boolean slain = boss.getHealth() <= 0;
-    if(slain) {
-
-    }
+    if (slain) {}
     return RBResult.builder().note(note).slain(slain).boss(boss).build();
   }
 

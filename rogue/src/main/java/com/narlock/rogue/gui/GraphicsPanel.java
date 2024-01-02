@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import javax.swing.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 public class GraphicsPanel extends JPanel implements Runnable {
@@ -132,7 +131,7 @@ public class GraphicsPanel extends JPanel implements Runnable {
     if (didAttack) {
       g.setColor(Color.BLACK);
 
-      if(currentEvent.getEvent().getId().equalsIgnoreCase("0")) {
+      if (currentEvent.getEvent().getId().equalsIgnoreCase("0")) {
         String message = "A Rogue Boss has appeared!";
         int x = ScreenUtils.getXForCenterText(g, message);
         g.drawString(message, x, 35);
@@ -140,7 +139,6 @@ public class GraphicsPanel extends JPanel implements Runnable {
         int x = ScreenUtils.getXForCenterText(g, currentEvent.getResult().getNote());
         g.drawString(currentEvent.getResult().getNote(), x, 35);
       }
-
 
       // Calculate the current health percentage
       if (!updatedHealthBar) {
