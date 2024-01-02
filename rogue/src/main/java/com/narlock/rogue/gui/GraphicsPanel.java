@@ -3,6 +3,7 @@ package com.narlock.rogue.gui;
 import com.narlock.rogue.model.boss.RBBoss;
 import com.narlock.rogue.model.event.RBEvent;
 import com.narlock.rogue.model.result.RBResult;
+import com.narlock.rogue.util.FontUtils;
 import com.narlock.rogue.util.ImageUtils;
 import com.narlock.rogue.util.ScreenUtils;
 import java.awt.*;
@@ -132,10 +133,12 @@ public class GraphicsPanel extends JPanel implements Runnable {
       g.setColor(Color.BLACK);
 
       if (currentEvent.getEvent().getId().equalsIgnoreCase("0")) {
-        String message = "A Rogue Boss has appeared!";
+        String message = "Rogue Boss Event!";
+        g.setFont(FontUtils.pressStart_12);
         int x = ScreenUtils.getXForCenterText(g, message);
         g.drawString(message, x, 35);
       } else {
+        g.setFont(FontUtils.pressStart_12);
         int x = ScreenUtils.getXForCenterText(g, currentEvent.getResult().getNote());
         g.drawString(currentEvent.getResult().getNote(), x, 35);
       }
@@ -171,6 +174,7 @@ public class GraphicsPanel extends JPanel implements Runnable {
   }
 
   public void drawBossName(Graphics g) {
+    g.setFont(FontUtils.pressStart_12);
     int x = ScreenUtils.getXForCenterText(g, rbBoss.getName());
     g.drawString(rbBoss.getName(), x, 180);
   }
