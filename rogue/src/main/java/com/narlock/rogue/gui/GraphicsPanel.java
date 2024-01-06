@@ -141,7 +141,7 @@ public class GraphicsPanel extends JPanel implements Runnable {
         g.setFont(FontUtils.pressStart_12);
         String[] lines = currentEvent.getResult().getNote().split("\n");
         int y = 35;
-        for(String line : lines) {
+        for (String line : lines) {
           int x = ScreenUtils.getXForCenterText(g, line);
           g.drawString(line, x, y);
           y += 12;

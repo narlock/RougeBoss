@@ -13,10 +13,6 @@ public class RBResult {
 
   public static RBResult modify(RBResult original) {
     String modifiedNote = original.note.replaceAll("\n", " ");
-    return RBResult.builder()
-            .note(modifiedNote)
-            .slain(original.slain)
-            .boss(original.boss)
-            .build();
+    return RBResult.builder().note(modifiedNote).slain(original.slain).boss(original.boss).build();
   }
 }
