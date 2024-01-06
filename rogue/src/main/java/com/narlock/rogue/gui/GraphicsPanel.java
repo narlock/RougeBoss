@@ -47,7 +47,7 @@ public class GraphicsPanel extends JPanel implements Runnable {
 
   public void initializeBoss(RBBoss rbBoss) {
     this.rbBoss = rbBoss;
-    boss = Boss.getBossByType(rbBoss.getBossType());
+    boss = Boss.getBossByTypeAndRbType(rbBoss.getBossType(), rbBoss.getType());
   }
 
   @Override
@@ -158,10 +158,10 @@ public class GraphicsPanel extends JPanel implements Runnable {
     // Draw boss
     if (bossAnimationCounter >= 0 && bossAnimationCounter < 40) {
       // Display the first image for 20 frames (0-19 and 40-59)
-      g.drawImage(boss.image1, 130, 35, null);
+      g.drawImage(boss.image1, 130 + boss.x, 35 + boss.y, null);
     } else {
       // Display the second image for 20 frames (20-39)
-      g.drawImage(boss.image2, 130, 35, null);
+      g.drawImage(boss.image2, 130 + boss.x, 35 + boss.y, null);
     }
 
     // Increment the bossAnimationCounter by 1 for each frame
