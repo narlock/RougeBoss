@@ -178,7 +178,9 @@ public class RogueService {
   }
 
   protected int getLevel(int exp) {
-    int level = exp / 1000 == 0 ? 1 : exp / 1000;
+    double b = 0.317;
+    int level = exp < 9 ? 1 : (int) Math.pow(exp, b);
+
     log.info("Level of attacker: {}", level);
     return level;
   }
