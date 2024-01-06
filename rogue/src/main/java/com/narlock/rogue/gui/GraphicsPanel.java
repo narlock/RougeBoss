@@ -139,8 +139,13 @@ public class GraphicsPanel extends JPanel implements Runnable {
         g.drawString(message, x, 35);
       } else {
         g.setFont(FontUtils.pressStart_12);
-        int x = ScreenUtils.getXForCenterText(g, currentEvent.getResult().getNote());
-        g.drawString(currentEvent.getResult().getNote(), x, 35);
+        String[] lines = currentEvent.getResult().getNote().split("\n");
+        int y = 35;
+        for(String line : lines) {
+          int x = ScreenUtils.getXForCenterText(g, line);
+          g.drawString(line, x, y);
+          y += 12;
+        }
       }
 
       // Calculate the current health percentage
@@ -189,13 +194,13 @@ public class GraphicsPanel extends JPanel implements Runnable {
     // Set color for the health bar
     Color healthColor = Color.RED; // For example, set to green
 
-    // Draw the health bar outline
-    g.setColor(Color.BLACK);
-    g.drawRect(barX, barY, barWidth, barHeight);
-
     // Draw the filled portion of the health bar based on the current health
     g.setColor(healthColor);
     g.fillRect(barX, barY, healthBarWidth, barHeight);
+
+    // Draw the health bar outline
+    g.setColor(Color.BLACK);
+    g.drawRect(barX, barY, barWidth, barHeight);
   }
 
   public void event(RBEvent event, RBResult result) {

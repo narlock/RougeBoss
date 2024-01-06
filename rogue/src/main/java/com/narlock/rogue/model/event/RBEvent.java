@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class RBEvent {
   private String id;
+  private String name;
   private RBType type;
   private RBModel model;
   private int weapon;
@@ -18,6 +19,7 @@ public class RBEvent {
   public static RBEvent TEST =
       RBEvent.builder()
           .id("0")
+          .name("")
           .type(RBType.FIRE)
           .model(RBModel.TRINITY)
           .weapon(1)

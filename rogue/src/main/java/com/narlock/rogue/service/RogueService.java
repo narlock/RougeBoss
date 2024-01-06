@@ -122,16 +122,16 @@ public class RogueService {
 
     // Roll for critical hit
     if (roll(7)) {
-      note += "Critical hit! ";
+      note += "[Critical hit!]\n";
       attackPower *= 2;
     }
 
     // Roll for hit chance
     if (!roll(95)) {
-      note = "Attack missed!";
+      note = event.getName() + "'s attack missed!";
     } else {
       // Apply attack to boss!
-      note += attackPower + " damage dealt.";
+      note += event.getName() + "\ndealt " + attackPower + " damage.";
       boss.setHealth(boss.getHealth() - attackPower);
 
       // Update damage dealt for user
