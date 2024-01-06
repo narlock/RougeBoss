@@ -35,6 +35,6 @@ public class RogueController {
   public ResponseEntity<RBResult> rb(@RequestBody RBEvent event) {
     log.info("Received event {}", event);
     RBResult result = rogueService.sendMessageToEventQueue(event);
-    return ResponseEntity.ok(result);
+    return ResponseEntity.ok(RBResult.modify(result));
   }
 }
