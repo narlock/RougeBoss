@@ -128,7 +128,7 @@ public class RogueService {
 
     // Roll for hit chance
     if (!roll(95)) {
-      note = event.getName() + "'s attack missed!";
+      note = event.getName() + "'s\nattack missed!";
     } else {
       // Apply attack to boss!
       note += event.getName() + "\ndealt " + attackPower + " damage.";
