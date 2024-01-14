@@ -1,7 +1,7 @@
-# Rouge Boss
+# Rogue Boss
 Simple "Boss Battle" simulator for building communities.
 
-![Spring Boot](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring+boot&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot_3-F2F4F9?style=for-the-badge&logo=spring-boot)
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 
 ## Application Description
@@ -36,7 +36,8 @@ POST /rb
 
 {
     "id": "123",
-    "type": "LIGHT",
+    "name": "Trinity",
+    "type": "DARK",
     "model": "TRINITY",
     "weapon": 1,
     "powerUp": 1,
@@ -54,7 +55,7 @@ Content-Type: application/json
     "slain": false,
     "boss": {
         "level": 3,
-        "bossType": "GNASHER",
+        "bossType": "SLIME",
         "type": "DARK",
         "health": 1290,
         "damageList": [
@@ -63,7 +64,7 @@ Content-Type: application/json
                 "damage": 6
             }
         ],
-        "name": "DARK GNASHER LV3"
+        "name": "DARK SLIME LV3"
     }
 }
 ```
@@ -72,29 +73,20 @@ The `damageList` attribute of the response will contain information of each user
 
 ## Typing
 This game has a simple typing system. Certain types are super/not very effective against one another.
-- **FIRE**
-    - Strong against: Earth
-    - Weak against: Water
-- **WATER**
-    - Strong against: Fire
-    - Weak against: Earth
-- **EARTH**
-    - Strong against: Water
-    - Weak against: Fire
-- **PSYCHIC**
-    - Strong against: Dark
-    - Weak against: Light
-- **LIGHT**
-    - Strong against: PSYCHIC
-    - Weak against: Dark
-- **DARK**
-    - Strong against: Light
-    - Weak against: PSYCHIC
 
-## TODO
+- 🔥 **FIRE** is weak to **WATER**, but super effective against **EARTH**.
+- 💧 **WATER** is weak to **EARTH**, but super effective against **FIRE**.
+- 🪨 **EARTH** is weak to **FIRE**, but super effective against **WATER**.
+- 🔮 **PSYCHIC** is weak to **LIGHT**, but super effective against **DARK**.
+- 💫 **LIGHT** is weak to **DARK**, but super effective against **PSYCHIC**.
+- 🌑 **DARK** is weak to **PSYCHIC**, but super effective against **LIGHT**.
+
+
+## Future Improvements
 - Unit Testing
-- Simple Diagram
+- Simple Architectural Diagram
 - Add additional images
+- Potentially utilize `weapon` and `powerUp` attributes.
 
 ## Artwork Usage
-Usage of artwork in RogueBoss including the boss designs and the character designed are not permitted unless given permission by creator, **narlock**.
+The artwork in narlock's RogueBoss were created by __narlock__. Please ask for permission if you plan to use these assets for your own projects.
