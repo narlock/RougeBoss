@@ -85,7 +85,7 @@ public class GraphicsPanel extends JPanel implements Runnable {
       currentEvent = eventList.poll();
       updatedHealthBar = false;
 
-      attacker = Attacker.getAttackerByType(currentEvent.getEvent().getType());
+      attacker = Attacker.getAttacker(currentEvent.getEvent().getType(), currentEvent.getEvent().getModel());
       log.info("attacker {}", attacker.x);
       didAttack = false;
 
@@ -204,10 +204,14 @@ public class GraphicsPanel extends JPanel implements Runnable {
   }
 
   public void event(RBEvent event, RBResult result) {
+    // Adds the event to the event queue (event is the pair of cause 'event' and effect 'result')
     eventList.add(EventPair.builder().event(event).result(result).build());
 
+    // Calculate the width of the boss's health bar after the event
     int maxHealth = result.getBoss().getLevel() * 50;
     int barWidthAfterAttack = (int) (200 * ((double) result.getBoss().getHealth() / maxHealth));
+
+    // Add bar update to a queue (this will correspond with the event list)
     healthBarList.add(barWidthAfterAttack);
   }
 }

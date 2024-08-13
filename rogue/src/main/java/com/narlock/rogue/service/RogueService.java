@@ -134,25 +134,26 @@ public class RogueService {
       note += event.getName() + "\ndealt " + attackPower + " damage.";
       boss.setHealth(boss.getHealth() - attackPower);
 
-      // Update damage dealt for user
-      boolean found = false;
+      // Update damage dealt for user if they exist on record
+      boolean hasUserDoneDamage = false;
       for (RBData data : boss.getDamageList()) {
         if (data.getId().equalsIgnoreCase(event.getId())) {
           data.setDamage(data.getDamage() + attackPower);
-          found = true;
+          hasUserDoneDamage = true;
         }
       }
 
-      if (!found) {
+      // Add new user to damage record if they didn't exist
+      if (!hasUserDoneDamage) {
         RBData data = RBData.builder().id(event.getId()).damage(attackPower).build();
         boss.getDamageList().add(data);
       }
 
+      // Save new damage record
       saveBossToJsonFile();
     }
 
     boolean slain = boss.getHealth() <= 0;
-    if (slain) {}
     return RBResult.builder().note(note).slain(slain).boss(boss).build();
   }
 
