@@ -72,11 +72,15 @@ public class GraphicsPanel extends JPanel implements Runnable {
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
+    drawCredits(g);
+
     if (!hideSlainBoss) {
       drawBoss(g);
       drawBossName(g);
+      drawBossHealth(g);
+    } else {
+      drawBossSlain(g);
     }
-    drawBossHealth(g);
 
     if (!eventList.isEmpty() && !eventInProgress) {
       // Process the current event
@@ -114,13 +118,15 @@ public class GraphicsPanel extends JPanel implements Runnable {
     // boss
     if (currentEvent.getEvent().equals(RBEvent.NEW_BOSS)
         || currentEvent.getEvent().equals(RBEvent.PING)) {
+
+      String message = "Rogue Boss Event!";
       // On new bosses only, we want to ensure that the health bar is max when drawn
       if (currentEvent.getEvent().equals(RBEvent.NEW_BOSS)) {
         healthBarWidth = 200;
+        message = "New Boss Emerged!";
       }
 
       // display rogue boss event message
-      String message = "Rogue Boss Event!";
       g.setFont(FontUtils.pressStart_12);
       int x = ScreenUtils.getXForCenterText(g, message);
       g.drawString(message, x, 35);
@@ -144,7 +150,6 @@ public class GraphicsPanel extends JPanel implements Runnable {
         didAttack = true;
         if (currentEvent.getResult().isSlain()) {
           hideSlainBoss = true;
-          // TODO drawn slain message
         }
       } else if (animationCounter < 75) {
         g.drawImage(attacker.attack1, attacker.x, attacker.y, 128, 64, null);
@@ -229,6 +234,12 @@ public class GraphicsPanel extends JPanel implements Runnable {
     g.drawRect(barX, barY, barWidth, barHeight);
   }
 
+  public void drawBossSlain(Graphics g) {
+    String message = "Boss Slain!";
+    g.setFont(FontUtils.pressStart_12);
+    g.drawString(message, 135, 125);
+  }
+
   public void event(RBEvent event, RBResult result) {
     // Adds the event to the event queue (event is the pair of cause 'event' and effect 'result')
     eventList.add(EventPair.builder().event(event).result(result).build());
@@ -247,5 +258,12 @@ public class GraphicsPanel extends JPanel implements Runnable {
       // Add bar update to a queue (this will correspond with the event list)
       healthBarList.add(barWidthAfterAttack);
     }
+  }
+
+  public void drawCredits(Graphics g) {
+    String message = "Created by narlock";
+    g.setFont(FontUtils.pressStart_12);
+    int x = ScreenUtils.getXForCenterText(g, message);
+    g.drawString(message, x, 270);
   }
 }
