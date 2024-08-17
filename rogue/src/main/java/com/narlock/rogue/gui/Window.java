@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class Window extends JFrame {
 
-  public final String VERSION = "v2.0.0";
+  public final String VERSION = "v1.0.0";
   public GraphicsPanel gp;
 
   public Window() {
