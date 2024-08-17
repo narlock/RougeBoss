@@ -67,7 +67,8 @@ public class RogueService {
     return userHome
         + File.separator
         + "Documents"
-            + File.separator + "narlock"
+        + File.separator
+        + "narlock"
         + File.separator
         + "RogueBoss"
         + File.separator
@@ -77,11 +78,12 @@ public class RogueService {
   private String getBossDirectoryPath() {
     String userHome = System.getProperty("user.home");
     return userHome
-            + File.separator
-            + "Documents"
-            + File.separator + "narlock"
-            + File.separator
-            + "RogueBoss";
+        + File.separator
+        + "Documents"
+        + File.separator
+        + "narlock"
+        + File.separator
+        + "RogueBoss";
   }
 
   public void pingWithAnimation() {
