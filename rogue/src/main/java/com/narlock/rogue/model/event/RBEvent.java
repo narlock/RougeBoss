@@ -16,11 +16,22 @@ public class RBEvent {
   private int powerUp;
   private int exp;
 
-  public static RBEvent TEST =
+  public static RBEvent NEW_BOSS =
       RBEvent.builder()
           .id("0")
           .name("")
           .type(RBType.FIRE)
+          .model(RBModel.TRINITY)
+          .weapon(1)
+          .powerUp(1)
+          .exp(0)
+          .build();
+
+  public static RBEvent PING =
+      RBEvent.builder()
+          .id("0")
+          .name("")
+          .type(RBType.WATER)
           .model(RBModel.TRINITY)
           .weapon(1)
           .powerUp(1)

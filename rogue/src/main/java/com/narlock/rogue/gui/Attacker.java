@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 @Builder
 public class Attacker {
+
   private static final String RES_PATH = "/res/attacker/";
 
   BufferedImage walk1, walk2, attack1, attack2;
@@ -25,11 +26,33 @@ public class Attacker {
     String attackerAnimation = "sword";
 
     attackerBuilder
-            .walk1(ImageUtils.readImage(RES_PATH + attackerModelName + "/" + attackerTypeName + "/walk1.png"))
-            .walk2(ImageUtils.readImage(RES_PATH + attackerModelName + "/" + attackerTypeName + "/walk2.png"))
-            .attack1(ImageUtils.readImage(RES_PATH + attackerModelName + "/" + attackerTypeName + "/" + attackerAnimation + "1.png"))
-            .attack2(ImageUtils.readImage(RES_PATH + attackerModelName + "/" + attackerTypeName + "/" + attackerAnimation + "2.png"));
+        .walk1(
+            ImageUtils.readImage(
+                RES_PATH + attackerModelName + "/" + attackerTypeName + "/walk1.png"))
+        .walk2(
+            ImageUtils.readImage(
+                RES_PATH + attackerModelName + "/" + attackerTypeName + "/walk2.png"))
+        .attack1(
+            ImageUtils.readImage(
+                RES_PATH
+                    + attackerModelName
+                    + "/"
+                    + attackerTypeName
+                    + "/"
+                    + attackerAnimation
+                    + "1.png"))
+        .attack2(
+            ImageUtils.readImage(
+                RES_PATH
+                    + attackerModelName
+                    + "/"
+                    + attackerTypeName
+                    + "/"
+                    + attackerAnimation
+                    + "2.png"));
 
     return attackerBuilder.build();
   }
+
+  public static final Attacker NONE = getAttacker(RBType.FIRE, RBModel.NONE);
 }

@@ -15,7 +15,6 @@ import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @Slf4j
@@ -70,27 +69,8 @@ public class RogueService {
         + "boss.json";
   }
 
-  public void ping() {
-    RB.window.gp.initializeBoss(boss);
-  }
-
   public void pingWithAnimation() {
-    RB.window.gp.initializeBoss(boss);
-    sendMessageToEventQueue(RBEvent.TEST);
-  }
-
-  public void refreshBoss() {
-    RB.window.gp.initializeBoss(boss);
-
-    // Create a RestTemplate instance
-    RestTemplate restTemplate = new RestTemplate();
-
-    // Make a GET request to the endpoint
-    String url = "http://localhost:8081/rban";
-    String response = restTemplate.getForObject(url, String.class);
-
-    // Process the response
-    System.out.println("Response from /rban endpoint: " + response);
+    sendMessageToEventQueue(RBEvent.PING);
   }
 
   public RBResult sendMessageToEventQueue(RBEvent event) {
@@ -104,7 +84,7 @@ public class RogueService {
     if (result.isSlain()) {
       boss = RBBoss.random(result.getBoss().getLevel() + 1);
       saveBossToJsonFile();
-      refreshBoss();
+      sendMessageToEventQueue(RBEvent.NEW_BOSS);
     }
 
     // Return result
@@ -153,7 +133,13 @@ public class RogueService {
       saveBossToJsonFile();
     }
 
-    boolean slain = boss.getHealth() <= 0;
+    // determine slain status
+    boolean slain = false;
+    if (boss.getHealth() <= 0) {
+      slain = true;
+      boss.setHealth(0);
+    }
+
     return RBResult.builder().note(note).slain(slain).boss(boss).build();
   }
 

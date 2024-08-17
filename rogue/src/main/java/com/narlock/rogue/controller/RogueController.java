@@ -17,13 +17,6 @@ public class RogueController {
 
   @Autowired private RogueService rogueService;
 
-  @GetMapping("/rb")
-  public ResponseEntity<String> ping() {
-    log.info("Ping request received. Syncing Boss with Graphics Panel");
-    rogueService.ping();
-    return ResponseEntity.ok("Success");
-  }
-
   @GetMapping("/rban")
   public ResponseEntity<String> pingWithAnimation() {
     log.info("Ping request received. Syncing Boss with Graphics Panel");

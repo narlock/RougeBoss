@@ -23,6 +23,7 @@ public class GraphicsPanel extends JPanel implements Runnable {
   int bossAnimationCounter = 0;
   int healthBarWidth;
   boolean updatedHealthBar;
+  boolean hideSlainBoss;
 
   private LinkedList<EventPair> eventList;
   private LinkedList<Integer> healthBarList;
@@ -43,11 +44,6 @@ public class GraphicsPanel extends JPanel implements Runnable {
 
     graphicsThread = new Thread(this);
     graphicsThread.start();
-  }
-
-  public void initializeBoss(RBBoss rbBoss) {
-    this.rbBoss = rbBoss;
-    boss = Boss.getBossByTypeAndRbType(rbBoss.getBossType(), rbBoss.getType());
   }
 
   @Override
@@ -76,80 +72,110 @@ public class GraphicsPanel extends JPanel implements Runnable {
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
-    drawBoss(g);
-    drawBossName(g);
+    if (!hideSlainBoss) {
+      drawBoss(g);
+      drawBossName(g);
+    }
     drawBossHealth(g);
 
     if (!eventList.isEmpty() && !eventInProgress) {
-      // Draw events
+      // Process the current event
       currentEvent = eventList.poll();
       updatedHealthBar = false;
 
-      attacker = Attacker.getAttacker(currentEvent.getEvent().getType(), currentEvent.getEvent().getModel());
-      log.info("attacker {}", attacker.x);
-      didAttack = false;
+      // set boss based on current event - ensures drawing current boss and not future boss
+      this.rbBoss = currentEvent.getResult().getBoss();
+      boss = Boss.getBossByTypeAndRbType(rbBoss.getBossType(), rbBoss.getType());
 
+      // set attacker based on current event
+      if (currentEvent.getEvent().equals(RBEvent.NEW_BOSS)
+          || currentEvent.getEvent().equals(RBEvent.PING)) {
+        attacker = Attacker.NONE;
+      } else {
+        attacker =
+            Attacker.getAttacker(
+                currentEvent.getEvent().getType(), currentEvent.getEvent().getModel());
+      }
+
+      // draw the current event now that variables are configured
       log.info("Event from {} now in progress...", currentEvent.getEvent().getId());
       eventInProgress = true;
     } else if (eventInProgress) {
+      // while the event is in progress, draw the animation for the event
       drawAnimation(g);
     } else {
-      // NO EVENTS
+      // On no events, simply draw the rogue boss logo
       g.drawImage(titleImage, 60, 0, null);
     }
   }
 
   public void drawAnimation(Graphics g) {
+    // On new boss or ping event, we want to draw "rogue boss event" to signal initialization or new
+    // boss
+    if (currentEvent.getEvent().equals(RBEvent.NEW_BOSS)
+        || currentEvent.getEvent().equals(RBEvent.PING)) {
+      // On new bosses only, we want to ensure that the health bar is max when drawn
+      if (currentEvent.getEvent().equals(RBEvent.NEW_BOSS)) {
+        healthBarWidth = 200;
+      }
+
+      // display rogue boss event message
+      String message = "Rogue Boss Event!";
+      g.setFont(FontUtils.pressStart_12);
+      int x = ScreenUtils.getXForCenterText(g, message);
+      g.drawString(message, x, 35);
+    }
+
+    // play the animation
     if (animationCounter < 180) {
       animationCounter++;
-
       if (animationCounter < 5) {
         g.drawImage(attacker.walk1, attacker.x, attacker.y, 128, 64, null);
         attacker.x += 2;
-      } else if (animationCounter >= 5 && animationCounter < 15) {
+      } else if (animationCounter < 15) {
         g.drawImage(attacker.walk2, attacker.x, attacker.y, 128, 64, null);
         attacker.x += 2;
-      } else if (animationCounter >= 15 && animationCounter < 25) {
+      } else if (animationCounter < 25) {
         g.drawImage(attacker.walk1, attacker.x, attacker.y, 128, 64, null);
-      } else if (animationCounter >= 25 && animationCounter < 35) {
+      } else if (animationCounter < 35) {
         g.drawImage(attacker.attack1, attacker.x, attacker.y, 128, 64, null);
-      } else if (animationCounter >= 35 && animationCounter < 50) {
+      } else if (animationCounter < 50) {
         g.drawImage(attacker.attack2, attacker.x, attacker.y, 128, 64, null);
         didAttack = true;
-      } else if (animationCounter >= 50 && animationCounter < 75) {
+        if (currentEvent.getResult().isSlain()) {
+          hideSlainBoss = true;
+          // TODO drawn slain message
+        }
+      } else if (animationCounter < 75) {
         g.drawImage(attacker.attack1, attacker.x, attacker.y, 128, 64, null);
       } else {
         g.drawImage(attacker.walk1, attacker.x, attacker.y, 128, 64, null);
       }
-
     } else {
+      // reset animation variables
       animationCounter = 0;
       eventInProgress = false;
       didAttack = false;
       updatedHealthBar = false;
+      hideSlainBoss = false;
     }
 
-    if (didAttack) {
+    if (didAttack
+        && !currentEvent.getEvent().equals(RBEvent.NEW_BOSS)
+        && !currentEvent.getEvent().equals(RBEvent.PING)) {
+      // draw message after attack is completed
       g.setColor(Color.BLACK);
-
-      if (currentEvent.getEvent().getId().equalsIgnoreCase("0")) {
-        String message = "Rogue Boss Event!";
-        g.setFont(FontUtils.pressStart_12);
-        int x = ScreenUtils.getXForCenterText(g, message);
-        g.drawString(message, x, 35);
-      } else {
-        g.setFont(FontUtils.pressStart_12);
-        String[] lines = currentEvent.getResult().getNote().split("\n");
-        int y = 35;
-        for (String line : lines) {
-          int x = ScreenUtils.getXForCenterText(g, line);
-          g.drawString(line, x, y);
-          y += 12;
-        }
+      g.setFont(FontUtils.pressStart_12);
+      String[] lines = currentEvent.getResult().getNote().split("\n");
+      int y = 35;
+      for (String line : lines) {
+        int x = ScreenUtils.getXForCenterText(g, line);
+        g.drawString(line, x, y);
+        y += 12;
       }
 
       // Calculate the current health percentage
-      if (!updatedHealthBar) {
+      if (!updatedHealthBar && !currentEvent.getEvent().equals(RBEvent.NEW_BOSS)) {
         if (!healthBarList.isEmpty()) {
           healthBarWidth = healthBarList.poll();
           log.info("Health bar now {}", healthBarWidth);
@@ -211,7 +237,15 @@ public class GraphicsPanel extends JPanel implements Runnable {
     int maxHealth = result.getBoss().getLevel() * 50;
     int barWidthAfterAttack = (int) (200 * ((double) result.getBoss().getHealth() / maxHealth));
 
-    // Add bar update to a queue (this will correspond with the event list)
-    healthBarList.add(barWidthAfterAttack);
+    // If the event is a ping, lets set the bar width to the correct width based on current boss
+    // health
+    if (event.equals(RBEvent.PING)) {
+      healthBarWidth = barWidthAfterAttack;
+    }
+    // If the event is a regular event, add it to the health bar queue for change
+    else if (!event.equals(RBEvent.NEW_BOSS)) {
+      // Add bar update to a queue (this will correspond with the event list)
+      healthBarList.add(barWidthAfterAttack);
+    }
   }
 }

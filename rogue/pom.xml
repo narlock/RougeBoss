@@ -100,7 +100,7 @@
 				<configuration>
 					<java>
 						<googleJavaFormat>
-							<version>1.11.0</version>
+							<version>1.17.0</version>
 						</googleJavaFormat>
 					</java>
 				</configuration>
