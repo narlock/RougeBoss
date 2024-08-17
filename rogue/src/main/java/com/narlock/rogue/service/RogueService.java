@@ -49,6 +49,10 @@ public class RogueService {
 
   public void saveBossToJsonFile() {
     try {
+      // ensure the directories exist
+      File file = new File(getBossDirectoryPath());
+      file.mkdirs();
+
       String filePath = getBossFilePath();
       String bossJson = objectMapper.writeValueAsString(boss);
       Files.write(Paths.get(filePath), bossJson.getBytes());
@@ -63,10 +67,21 @@ public class RogueService {
     return userHome
         + File.separator
         + "Documents"
+            + File.separator + "narlock"
         + File.separator
         + "RogueBoss"
         + File.separator
         + "boss.json";
+  }
+
+  private String getBossDirectoryPath() {
+    String userHome = System.getProperty("user.home");
+    return userHome
+            + File.separator
+            + "Documents"
+            + File.separator + "narlock"
+            + File.separator
+            + "RogueBoss";
   }
 
   public void pingWithAnimation() {

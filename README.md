@@ -1,8 +1,8 @@
 # Rogue Boss
 Simple "Boss Battle" simulator for building communities.
 
-![Spring Boot](https://img.shields.io/badge/Spring_Boot_3-F2F4F9?style=for-the-badge&logo=spring-boot)
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
+![Spring Boot 3](https://img.shields.io/badge/spring_boot_3-%236DB33F.svg?style=for-the-badge&logo=spring-boot&logoColor=white)
+![Java 17](https://img.shields.io/badge/java_17-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 
 ## Application Description
 
@@ -14,11 +14,15 @@ This application as it stands leaves choices for other developers on how they wa
 ![RB1](./README%20Assets/RB1.png)
 ![RB2](./README%20Assets/RB2.png)
 
+## Application Context
+![Context Diagram](./README%20Assets/context.png)
+
+Rogue Boss contains three different main components: the REST API, for frontend interfaces to interact with, the User Interface, for displaying events received from the REST API, and the JSON datastore, stored at __/home/Documents/narlock/RogueBoss/boss.json__ contains the information of the current boss. This is used to persist the data when the application starts and shuts down.
 
 ## API Specification
 
-### GET `/rb`
-Pings the Rogue Boss application. This should be utilized to ensure connection to the API is stable and that the GUI displays the correct boss information.
+### GET `/rban`
+Pings the Rogue Boss application. This should be utilized to ensure connection to the API is stable and that the GUI displays the correct boss information. When the application is started, the application will call this endpoint to ping the graphics panel.
 
 **Response**
 ```
@@ -28,7 +32,7 @@ Content-Type: text/plain
 Success
 ```
 ### POST `/rb`
-Send an attack request. Request body should contain unique information with respect to the calling user.
+Send an attack request. Request body should contain unique information with respect to the calling user. The current supported models are `TRINITY` and `ANT`.
 
 **Request**
 ```json
@@ -84,9 +88,8 @@ This game has a simple typing system. Certain types are super/not very effective
 
 ## Future Improvements
 - Unit Testing
-- Simple Architectural Diagram
-- Add additional images
-- Potentially utilize `weapon` and `powerUp` attributes.
+- Add new character models
+- Add new animations (utilizing `weapon` attribute)
 
 ## Artwork Usage
-The artwork in narlock's RogueBoss were created by __narlock__. Please ask for permission if you plan to use these assets for your own projects.
+The artwork in narlock's Rogue Boss were created by __narlock__. Please ask for permission if you plan to use these assets for your own projects.
