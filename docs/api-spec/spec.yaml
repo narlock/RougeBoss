@@ -1,0 +1,154 @@
+openapi: 3.0.3
+info:
+  title: Rogue Boss API
+  version: 1.0.0
+  description: API for interacting with Rogue Boss events and graphics.
+
+paths:
+  /rban:
+    get:
+      summary: Ping with Animation
+      description: Sends a ping to sync the Rogue Boss with the graphics panel.
+      operationId: pingWithAnimation
+      responses:
+        '200':
+          description: Successful ping with animation
+          content:
+            application/json:
+              schema:
+                type: string
+              example: "Success"
+
+  /rb:
+    post:
+      summary: Send RB Event
+      description: Sends an RBEvent to the event queue.
+      operationId: sendRBEvent
+      requestBody:
+        description: RBEvent to be processed
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RBEvent'
+            examples:
+              RBEventExample:
+                value:
+                  id: "123"
+                  name: "Ant"
+                  type: "EARTH"
+                  model: "ANT"
+                  weapon: 1
+                  powerUp: 1
+                  exp: 1
+      responses:
+        '200':
+          description: Result of the RB Event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RBResult'
+              examples:
+                RBResultExample:
+                  value:
+                    note: "Ant dealt 4 damage."
+                    slain: false
+                    boss:
+                      level: 2
+                      bossType: "LION"
+                      type: "LIGHT"
+                      health: 83
+                      damageList:
+                        - id: "123"
+                          damage: 6
+                      name: "LIGHT LION LV2"
+
+components:
+  schemas:
+    RBEvent:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the event
+        name:
+          type: string
+          description: Name associated with the event
+        type:
+          type: string
+          description: Type of the Rogue Boss event
+          enum:
+            - EARTH
+            - FIRE
+            - WATER
+            - LIGHT
+            - DARK
+        model:
+          type: string
+          description: Model of the Rogue Boss
+        weapon:
+          type: integer
+          description: Weapon level used in the event
+        powerUp:
+          type: integer
+          description: Power-up level used in the event
+        exp:
+          type: integer
+          description: Experience points gained from the event
+      required:
+        - id
+        - name
+        - type
+        - model
+        - weapon
+        - powerUp
+        - exp
+
+    RBResult:
+      type: object
+      properties:
+        note:
+          type: string
+          description: A note describing the outcome of the event
+        slain:
+          type: boolean
+          description: Whether the Rogue Boss was slain
+        boss:
+          type: object
+          properties:
+            level:
+              type: integer
+              description: Level of the boss
+            bossType:
+              type: string
+              description: Type of the boss
+            type:
+              type: string
+              description: Elemental type of the boss
+              enum:
+                - EARTH
+                - FIRE
+                - WATER
+                - LIGHT
+                - DARK
+            health:
+              type: integer
+              description: Health of the boss
+            damageList:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: ID of the damage source
+                  damage:
+                    type: integer
+                    description: Damage dealt by this source
+            name:
+              type: string
+              description: Full name of the boss
+      required:
+        - note
+        - slain
+        - boss

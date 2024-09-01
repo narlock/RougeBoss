@@ -1,0 +1,7 @@
+---
+layout: post
+title:  "Rogue Boss v1.0.0"
+date:   2024-08-31 06:30:37 -0500
+categories: jekyll update
+---
+This first official release of Rogue Boss is now available [here](https://github.com/narlock/RogueBoss/releases/tag/v1.0.0)!
