@@ -25,13 +25,14 @@
       ]
     }
   ],
+  "playerStorageType": "IN_FILE",
   "players": [
     {
       "id": "0",
       "model": "ADA",
       "skinTone": "#FFDBAC",
       "type": "WATER",
-      "class": "ROGUE",
+      "playerClass": "ROGUE",
       "xp": 0,
       "gil": 25,
       "statistics": {
