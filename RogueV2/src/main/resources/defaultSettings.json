@@ -1,0 +1,50 @@
+{
+  "border": 0,
+  "mode": "PEACEFUL",
+  "storyRepeatCount": 0,
+  "currentStage": 0,
+  "currentLevel": 0,
+  "stages": [
+    {
+      "themeType": "FIRE",
+      "levels": [
+        {
+          "type": "TRIAL",
+          "enemies": [
+            {
+              "enemyType": "SLIME",
+              "enemyLevel": 1,
+              "type": "FIRE",
+              "health": 50,
+              "damageList": [
+                { "id":  "0", "damage": 0 }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "players": [
+    {
+      "id": "0",
+      "model": "ADA",
+      "skinTone": "#FFDBAC",
+      "type": "WATER",
+      "class": "ROGUE",
+      "xp": 0,
+      "gil": 25,
+      "statistics": {
+        "attack": 1,
+        "specialAttack": 1,
+        "defense": 1,
+        "specialDefense": 1,
+        "agility": 1
+      },
+      "currentWeapon": 0,
+      "inventory": [
+        0, 15
+      ]
+    }
+  ]
+}

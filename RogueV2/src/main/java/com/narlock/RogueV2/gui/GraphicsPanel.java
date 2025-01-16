@@ -13,7 +13,7 @@ public class GraphicsPanel extends JPanel implements Runnable {
 
     public GraphicsPanel() {
         // Load border image
-        borderImage = ImageUtils.readImage("/res/border/sample.png");
+        borderImage = ImageUtils.readImage("/res/border/default.png");
 
         graphicsThread = new Thread(this);
         graphicsThread.start();
