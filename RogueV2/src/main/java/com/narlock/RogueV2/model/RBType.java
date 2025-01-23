@@ -10,8 +10,7 @@ public enum RBType {
     EARTH("Earth"),
     PSYCHIC("Psychic"),
     LIGHT("Light"),
-    DARK("Dark"),
-    TEST("Test");
+    DARK("Dark");
 
     RBType(String name) {}
 
@@ -20,9 +19,7 @@ public enum RBType {
     public static RBType random() {
         RBType[] values = values();
         RBType randomType;
-        do {
-            randomType = values[RANDOM.nextInt(values.length)];
-        } while (randomType == TEST); // Exclude TEST
+        randomType = values[RANDOM.nextInt(values.length)];
         return randomType;
     }
 

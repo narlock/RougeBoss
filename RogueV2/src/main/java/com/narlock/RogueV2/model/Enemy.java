@@ -11,7 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Stage {
-    private RBType themeType;
-    private List<Level> levels;
+public class Enemy {
+    private EnemyType enemyType;
+    private Integer enemyLevel;
+    private RBType type;
+    private Integer health;
+    private List<RBData> damageList;
 }

@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Builder
-// @ToString
+// @ToStrin g
 public class RBBoss {
   private int level;
   private RBBossType bossType;
